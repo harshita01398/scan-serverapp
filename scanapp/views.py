@@ -26,23 +26,24 @@ def demo(request):
     }
     return JsonResponse(data)
 
-# def connect(request):
+def connect(request):
 
-#     global name, passw, ip
+    global name, passw, ip
 
-#     if ip == "":
-#         return JsonResponse(None)
+    if ip == "":
+        print("no ip")
+        return JsonResponse(None)
     
-#     else:
-#         data = {
-#         'name': name,
-#         'pass': passw
-#         }
-#         name = ""
-#         passw = ""
-#         ip = ""
+    else:
+        data = {
+        'name': name,
+        'pass': passw
+        }
+        name = ""
+        passw = ""
+        ip = ""
 
-#         return JsonResponse(data)
+        return JsonResponse(data)
 
 def check_ip(request):
     client_ip, is_routable = get_client_ip(request)
