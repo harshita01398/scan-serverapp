@@ -47,14 +47,11 @@ def connect(request):
         return JsonResponse(data)
 
 def check_ip(request):
-    client_ip, is_routable, cip, rip = get_client_ip(request)
+    client_ip, is_routable= get_client_ip(request)
     if client_ip is None:
         print("Unable to get the client's IP address")
     else:
-        print("client ip: " + str(client_ip))
-        print("is_routable: " + str(is_routable))
-        print("cip: " + str(cip))
-        print("real IP: " + str(rip))
+
         # We got the client's IP address
         # if is_routable:
         #     print("Routable :  " + str(client_ip))
@@ -62,12 +59,28 @@ def check_ip(request):
         # else:
         #     print(client_ip)
 
+        data = {
+            'ip': client_ip,
+            # 'realip': rip
+        }
+        return JsonResponse(data)
+
+def get_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        print("returning FORWARDED_FOR")
+        ip = x_forwarded_for.split(',')[-1].strip()
+    elif request.META.get('HTTP_X_REAL_IP'):
+        print("returning REAL_IP")
+        ip = request.META.get('HTTP_X_REAL_IP')
+    else:
+        print("returning REMOTE_ADDR")
+        ip = request.META.get('REMOTE_ADDR')
     data = {
-        'ip': client_ip,
-        'real ip': rip
+        'ip': ip
+            # 'realip': rip
     }
     return JsonResponse(data)
-
 
 
     
