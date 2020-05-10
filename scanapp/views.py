@@ -29,6 +29,7 @@ def demo(request):
 def connect(request):
 
     global name, passw, ip
+    print(ip)
 
     if ip == "":
         print("no ip")
@@ -58,7 +59,7 @@ def check_ip(request):
             print(client_ip)
 
     data = {
-        'msg': "success"
+        'ip': client_ip
     }
     return JsonResponse(data)
 
