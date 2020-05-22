@@ -7,13 +7,14 @@ password = ""
 bike_ip = ""
 android_ip = ""
 
-status = True
+status = 1
 request_valid = False
+
 
 @csrf_exempt
 def receive(request):
 
-    global hotspot_name, password, bike_ip, android_ip, request_valid
+    global hotspot_name, password, bike_ip, android_ip, request_valid, status
 
     hotspot_name = request.POST.get('name')
     password = request.POST.get('pass')
@@ -41,6 +42,7 @@ def receive(request):
     else:
 
         request_valid = True
+        status = 1
 
         print(hotspot_name)
         print(password)
@@ -71,6 +73,9 @@ def connect(request):
     else:
         print("IP matched!")
 
+        if status==1:
+            status = 2
+
         response = {
         'hotspot_name' : hotspot_name,
         'pass' : password,
@@ -86,7 +91,9 @@ def bike_status(request):
     global android_ip, status
 
     android_ip = request.GET.get('androidIP')
-    status = False
+    
+    if status==2:
+        status = 0
 
     response = {
             'message' : "Request received."
@@ -101,7 +108,7 @@ def android_status(request):
     current_ip = request.GET.get('androidIP')
     print("android checking status")
 
-    if status or current_ip!=android_ip:
+    if status!=0 or current_ip!=android_ip:
         print("No status")
 
         response = {
