@@ -56,7 +56,7 @@ def receive(request):
 
 def connect(request):
 
-    global hotspot_name, password, bike_ip, android_ip, request_valid
+    global hotspot_name, password, bike_ip, android_ip, request_valid, status
 
     current_ip = request.GET.get('bikeIP')
 
